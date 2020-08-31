@@ -1,29 +1,21 @@
+import Value from "./Models/Value.js"
 import { EventEmitter } from "./Utils/EventEmitter.js"
+import { isValidProp } from "./Utils/isValidProp.js"
 
 class AppState extends EventEmitter {
-  user = {}
-  profile = {}
+  /** @type {Value[]} */
   values = []
 }
 
-const appState = new AppState()
-
-export const ProxyState = new Proxy(appState, {
-  get(appState, prop) {
-    isValidProp(prop)
-    return appState[prop]
+export const ProxyState = new Proxy(new AppState(), {
+  get(target, prop) {
+    isValidProp(target, prop)
+    return target[prop]
   },
-  set(appState, prop, value) {
-    isValidProp(prop)
-    appState[prop] = value
-    appState.emit(prop, value)
+  set(target, prop, value) {
+    isValidProp(target, prop)
+    target[prop] = value
+    target.emit(prop, value)
     return true
   }
 })
-
-function isValidProp(prop) {
-  if (typeof appState[prop] === 'function') { return }
-  if (!appState.hasOwnProperty(prop)) {
-    throw new Error(`[BAD PROP]:[${prop}] Invalid Property Access via Proxy State`)
-  }
-}

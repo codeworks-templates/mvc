@@ -42,4 +42,17 @@ export class EventEmitter {
         : fn(payload);
     }
   }
+
+  /**
+   * Removes all listeners from a specified event
+   */
+  clear(event) {
+    delete this._listeners[event]
+  }
+  /**
+   * Removes all listeners
+   */
+  clearAll() {
+    this._listeners = {}
+  }
 }

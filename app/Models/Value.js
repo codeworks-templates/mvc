@@ -4,6 +4,11 @@ export default class Value {
     }
 
     get Template() {
-        return this.title
+
+        return /*html*/`
+        <div className="card p-2 value">
+            ${this.title}
+        </div>
+        `
     }
 }
