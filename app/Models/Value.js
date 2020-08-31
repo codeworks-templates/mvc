@@ -6,7 +6,7 @@ export default class Value {
     get Template() {
 
         return /*html*/`
-        <div className="card p-2 value">
+        <div class="card p-2 value">
             ${this.title}
         </div>
         `
