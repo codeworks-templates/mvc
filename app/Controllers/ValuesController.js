@@ -5,12 +5,14 @@ import { valuesService } from "../Services/ValuesService.js";
 //Private
 function _draw() {
   let values = ProxyState.values;
-  let template = ''
-  values.forEach(v => template += v.Template)
+  let cardsTemplate = ''
+  values.forEach(v => cardsTemplate += v.CardTemplate)
   document.getElementById("app").innerHTML = /*html*/`
-  <button className="btn btn-info" onclick="app.valuesController.addValue()">Add Value</button>  
-  <div className="card-columns values">
-      ${template}
+  <div class="my-3">
+    <button class="btn btn-secondary text-white elevation-2" onclick="app.valuesController.addValue()">Add Value</button>  
+    <div class="values d-flex flex-wrap my-3">
+      ${cardsTemplate}
+    </div>
   </div>
   `
 }
@@ -24,6 +26,10 @@ export class ValuesController {
 
   addValue() {
     valuesService.addValue()
+  }
+
+  removeValue(id) {
+    valuesService.removeValue(id)
   }
 
 }
