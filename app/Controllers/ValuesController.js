@@ -1,5 +1,6 @@
 import { ProxyState } from "../AppState.js";
 import { valuesService } from "../Services/ValuesService.js";
+import { Pop } from "../Utils/Pop.js";
 
 
 //Private
@@ -28,8 +29,11 @@ export class ValuesController {
     valuesService.addValue()
   }
 
-  removeValue(id) {
-    valuesService.removeValue(id)
+  async removeValue(id) {
+    const yes = await Pop.confirm('Remove Value')
+    if (yes) {
+      valuesService.removeValue(id)
+    }
   }
 
 }
