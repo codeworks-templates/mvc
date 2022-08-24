@@ -1,3 +1,5 @@
+import { Pop } from "./Pop.js";
+
 export class EventEmitter {
   _listeners = {}
 
@@ -10,6 +12,7 @@ export class EventEmitter {
     if (typeof fn != 'function') { return; }
     if (!(event in this)) {
       console.error(`Unable to register listener for '${event}'`);
+      Pop.error(`Unable to register listener for '${event}'`)
       return;
     }
     this._listeners[event] = Array.isArray(this._listeners[event]) ? this._listeners[event] : [];

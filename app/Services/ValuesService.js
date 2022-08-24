@@ -1,13 +1,24 @@
-import { ProxyState } from "../AppState.js";
+import { appState } from "../AppState.js";
 import { Value } from "../Models/Value.js";
+import { saveState } from "../Utils/Store.js";
+
+function save() {
+  saveState('values', appState.values)
+}
+
 
 class ValuesService {
   addValue() {
-    ProxyState.values = [...ProxyState.values, new Value({ title: Math.random() })]
+    appState.values = [...appState.values, new Value({ title: Math.random() })]
+    save()
   }
+
+  /**
+   * @param {string} id
+   */
   removeValue(id) {
-    const values = ProxyState.values.filter(v => v.id !== id)
-    ProxyState.values = values
+    appState.values = appState.values.filter(v => v.id !== id)
+    save()
   }
 }
 
