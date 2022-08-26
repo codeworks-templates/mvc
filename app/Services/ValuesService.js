@@ -8,8 +8,12 @@ function save() {
 
 
 class ValuesService {
+  removeAll() {
+    appState.values = []
+    save()
+  }
   addValue() {
-    appState.values = [...appState.values, new Value({ title: Math.random() })]
+    appState.values = [...appState.values, new Value({ title: Math.round(Math.random() * 20) })]
     save()
   }
 
