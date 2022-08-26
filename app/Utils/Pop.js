@@ -1,7 +1,7 @@
 export class Pop {
 
   /**
-   * @typedef {{message: string, response:{ data: any}}} AxiosError
+   * @typedef {{isAxiosError: boolean, message: string, response:{ data: any}}} AxiosError
    */
 
   /**
@@ -42,6 +42,7 @@ export class Pop {
    * -----------------------------------
    * {@link https://sweetalert2.github.io/#configuration|Check out Sweet Alerts}
    */
+  // @ts-ignore
   static toast(title = 'Warning!', display = 'warning', position = 'top-end', timer = 3000, progressBar = true) {
     // @ts-ignore
     Swal.fire({
@@ -56,12 +57,12 @@ export class Pop {
   }
 
   /**
-   * @param {import('axios').AxiosError | Error | String } Error An Error Object.
+   * @param { AxiosError | Error | String | any } error An Error Object.
    */
   static error(error) {
     if (error.isAxiosError) {
       const { response } = error
-      this.toast(response.data.error?.message || response.data.message, 'error')
+      this.toast(response.data.error.message || response.data.message, 'error')
     } else {
       this.toast(error.message || error, 'error')
     }
