@@ -25,13 +25,13 @@ export function loadState(key, instanceType) {
     const keyType = Array.isArray(instanceType) ? '[]' : '{}'
     instanceType = Array.isArray(instanceType) ? instanceType[0] : instanceType
     let data = JSON.parse(window.localStorage.getItem(keyName) || keyType)
-    if (keyType == '{}' && !Object.keys(data).length) { return null }
     if (Array.isArray(data) && instanceType) {
       return data.map(i => new instanceType(i))
     }
     if (instanceType && data) {
       return new instanceType(data)
     }
+    if (keyType == '{}' && !Object.keys(data).length) { return null }
     return data
   } catch (error) {
     console.error('[ATTEMPTING_TO_LOAD_STATE]', { key, instanceType })
