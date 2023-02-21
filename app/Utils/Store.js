@@ -22,6 +22,9 @@ export function saveState(key, value) {
 export function loadState(key, instanceType) {
   try {
     const keyName = `${APP_NAME}_${key}`
+    if(!instanceType){
+      return window.localStorage.getItem(keyName)
+    }
     const keyType = Array.isArray(instanceType) ? '[]' : '{}'
     instanceType = Array.isArray(instanceType) ? instanceType[0] : instanceType
     let data = JSON.parse(window.localStorage.getItem(keyName) || keyType)
