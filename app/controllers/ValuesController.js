@@ -7,7 +7,11 @@ import { setHTML } from "../utils/Writer.js";
 //Private
 function _draw() {
   let cardsTemplate = ''
-  AppState.values.forEach(v => cardsTemplate += v.CardTemplate)
+  AppState.values.forEach(v => {
+    cardsTemplate += v.CardTemplate
+  })
+  console.log('template', cardsTemplate)
+
   setHTML('values', /*html*/`
   <div class="my-3">
     <button class="btn btn-primary text-white elevation-2" onclick="app.ValuesController.addValue()">Add Value</button>  
@@ -22,7 +26,8 @@ function _draw() {
 //Public
 export class ValuesController {
   constructor() {
-    AppState.on("values", _draw);
+    console.log('hmmm', AppState.values)
+    AppState.on("values", _draw)
     _draw()
   }
 
@@ -39,7 +44,7 @@ export class ValuesController {
       valuesService.removeValue(id)
     }
   }
-  
+
   async clearAll() {
     const yes = await Pop.confirm('Remove All Rolls?')
     if (yes) {

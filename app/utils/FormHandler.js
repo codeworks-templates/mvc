@@ -5,6 +5,7 @@ export function getFormData(form) {
     const formData = new FormData(form)
     const obj = {}
     formData.forEach((val, key) => {
+      // obj[key] = form[key].type == 'checkbox' ? val : false
       obj[key] = val
     })
     return obj
