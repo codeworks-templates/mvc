@@ -1,11 +1,19 @@
-import { Value } from "./modelss/Value.js"
-import { EventEmitter } from "./utilss/EventEmitter.js"
-import { isValidProp } from "./utilss/isValidProp.js"
-import { loadState } from "./utilss/Store.js"
+import { Value } from "./models/Value.js"
+import { EventEmitter } from "./utils/EventEmitter.js"
+import { isValidProp } from "./utils/isValidProp.js"
+import { loadState } from "./utils/Store.js"
 
 class ObservableAppState extends EventEmitter {
-  /** @type {import('./modelss/Value.js').Value[]} */
+  page = ''
+
+  /** @type {import('./models/Value.js').Value[]} */
   values = loadState('values', [Value])
+
+  // NOTE Used to load initial data
+  init() {
+
+  }
+
 }
 
 export const AppState = new Proxy(new ObservableAppState(), {
