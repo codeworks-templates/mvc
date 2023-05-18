@@ -10,7 +10,6 @@ function _draw() {
   AppState.values.forEach(v => {
     cardsTemplate += v.CardTemplate
   })
-  console.log('template', cardsTemplate)
 
   setHTML('values', /*html*/`
   <div class="my-3">
