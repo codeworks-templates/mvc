@@ -1,4 +1,4 @@
-import { generateId } from "../Utils/generateId.js"
+import { generateId } from "../utilss/generateId.js"
 
 export class Value {
   constructor(data) {
@@ -14,7 +14,7 @@ export class Value {
             ${this.title}
           </h4>
         </div>
-        <button class="btn btn-danger square-top" onclick="app.valuesController.removeValue('${this.id}')">Remove</button>
+        <button class="btn btn-danger square-top" onclick="app.ValuesController.removeValue('${this.id}')">Remove</button>
       </div>
     `
   }

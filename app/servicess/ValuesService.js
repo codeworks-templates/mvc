@@ -1,6 +1,6 @@
 import { appState } from "../AppState.js";
-import { Value } from "../Models/Value.js";
-import { saveState } from "../Utils/Store.js";
+import { Value } from "../modelss/Value.js";
+import { saveState } from "../utilss/Store.js";
 
 function save() {
   saveState('values', appState.values)
