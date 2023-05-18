@@ -25,7 +25,6 @@ function _draw() {
 //Public
 export class ValuesController {
   constructor() {
-    console.log('hmmm', AppState.values)
     AppState.on("values", _draw)
     _draw()
   }
