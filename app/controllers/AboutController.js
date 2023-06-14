@@ -6,8 +6,4 @@ export class AboutController {
     console.log('The About Page has loaded')
   }
 
-  testButton(){
-    Pop.success('The button Works 😎')
-  }
-
 }
