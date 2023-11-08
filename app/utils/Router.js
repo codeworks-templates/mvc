@@ -57,7 +57,6 @@ export class Router {
       false
     );
     this.routes = routeConfig.map(r => new Route(r))
-    this.VIEWS_CACHE = {}
     this.handleRouteChange()
   }
 
