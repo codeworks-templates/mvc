@@ -4,18 +4,11 @@ export class EventEmitter {
   _listeners = {}
 
   /**
-   * @param {string | number | object } event
+   * @param {string } event
    * @param {function} fn
    * @param {any} thisContext
    */
   on(event, fn, thisContext = null) {
-    if (typeof event != 'string') {
-      for (const key in this) {
-        if (this[key] == event) {
-          event = key
-        }
-      }
-    }
     if (typeof fn != 'function') { return; }
     if (!(event in this)) {
       console.error(`Unable to register listener for '${event}'`);
