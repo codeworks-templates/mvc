@@ -13,7 +13,7 @@ function _logExamples() {
 export class ExamplesController {
   constructor() {
     console.log('The ExamplesController has loaded')
-    AppState.on(AppState.examples, _logExamples)
+    AppState.on('examples', _logExamples)
   }
 
   addMessage(message) {
