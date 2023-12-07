@@ -14,7 +14,7 @@ export function saveState(key, value) {
       window.localStorage.removeItem(keyName)
     }
   } catch (error) {
-    console.error('[SAVING_STATE]', { key, value })
+    console.error('[SAVING_STATE]', error, { key, value })
     Pop.error(error)
   }
 }
