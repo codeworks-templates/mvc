@@ -37,7 +37,7 @@ export function loadState(key, instanceType) {
     if (keyType == '{}' && !Object.keys(data).length) { return null }
     return data
   } catch (error) {
-    console.error('[ATTEMPTING_TO_LOAD_STATE]', { key, instanceType })
+    console.error('[ATTEMPTING_TO_LOAD_STATE]', error,  { key, instanceType })
     Pop.error(error)
   }
 }
