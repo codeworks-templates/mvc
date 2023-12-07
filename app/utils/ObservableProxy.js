@@ -12,7 +12,7 @@ export function createObservableProxy(observable) {
     return {
       get(target, prop) {
         if (typeof prop == 'string' && prop.startsWith('_')) return target[prop]
-        if (target[prop] instanceof Object && !target[prop].__prop_name__) {
+        if (target[prop] instanceof Object && !target[prop].__prop_name__ && !(target[prop] instanceof Date)) {
           target[prop].__prop_name__ = prop
           target[prop] = new Proxy(target[prop], proxyHandler())
         }
