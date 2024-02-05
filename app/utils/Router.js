@@ -26,8 +26,8 @@ class Route {
   }
 
   async loadTemplate() {
-    if (!this.view.endsWith('.html') || this.template.startsWith('<')) {
-      return
+    if (!this.view || !this.view.endsWith('.html') || this.template.startsWith('<')) {
+      return ''
     }
     try {
       const res = await fetch(this.view)
@@ -50,13 +50,19 @@ export class Router {
   /**@type {Route} */
   currentRoute
 
+  app = {}
+
   constructor(routeConfig) {
+    this.routes = routeConfig.map(r => new Route(r))
+  }
+
+  init(app) {
+    this.app = app
     window.addEventListener(
       "hashchange",
       () => this.handleRouteChange(),
       false
     );
-    this.routes = routeConfig.map(r => new Route(r))
     this.handleRouteChange()
   }
 
@@ -98,14 +104,16 @@ export class Router {
       if (!target) { throw new Error('Unable to mount view') }
       target.innerHTML = template
     }
+
     this.fromRoute?.controllers.forEach(c => {
       // @ts-ignore
-      delete app[c.name]
+      delete this.app[c.name]
     })
     currentRoute.controllers.forEach(c => {
       // @ts-ignore
-      app[c.name] = new c()
+      this.app[c.name] = new c()
     })
+
   }
 
 }
