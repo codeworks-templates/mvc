@@ -5,7 +5,7 @@ class App {
 
   HomeController = new HomeController()
 
-  constructor() {
+  constructor(USE_ROUTER) {
     if(USE_ROUTER){
        this.router = router 
     }
