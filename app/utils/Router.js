@@ -22,6 +22,7 @@ class Route {
     this.controllers = routeConfig.controllers || []
     this.view = routeConfig.view || ''
     this.template = ''
+    this.params = {}
     this.loadTemplate()
   }
 
@@ -75,7 +76,29 @@ export class Router {
     this.fromRoute = this.currentRoute
     this.currentRoute = currentRoute
 
+    this.getParams()
     this.handleMiddleware()
+
+  }
+
+  getParams() {
+    const currentRoute = this.currentRoute
+    const path = location.hash.split('?')[0]
+    const params = location.hash.split('?')[1]
+    const routeParts = currentRoute.path.split('/')
+    const pathParts = path.split('/')
+    for (let i = 0; i < routeParts.length; i++) {
+      if (routeParts[i].startsWith(':')) {
+        currentRoute.params[routeParts[i].slice(1)] = pathParts[i]
+      }
+    }
+    if (params) {
+      const paramParts = params.split('&')
+      for (const part of paramParts) {
+        const [key, value] = part.split('=')
+        currentRoute.params[key] = value
+      }
+    }
   }
 
   async handleMiddleware() {
@@ -100,7 +123,14 @@ export class Router {
     if (currentRoute.view) {
       await currentRoute.loadTemplate()
       let template = currentRoute.template || currentRoute.view
-      const target = document.querySelector(currentRoute.target)
+      let target = document.querySelector(currentRoute.target)
+
+      if (!target) {
+        const main = document.querySelector('main')
+        main.id = 'router-view'
+        target = main
+      }
+
       if (!target) { throw new Error('Unable to mount view') }
       target.innerHTML = template
     }
@@ -113,7 +143,5 @@ export class Router {
       // @ts-ignore
       this.app[c.name] = new c()
     })
-
   }
-
 }
