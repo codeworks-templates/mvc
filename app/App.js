@@ -1,11 +1,14 @@
 import { router } from './router-config.js';
+import { HomeController } from './controllers/HomeController.js';
 
-class App {
+class App {  
 
-  router = router
+  HomeController = new HomeController()
 
-  init() {
-    this.router.init(app)
+  constructor() {
+    if(USE_ROUTER){
+       this.router = router 
+    }
   }
 
 }
