@@ -13,16 +13,27 @@ class Route {
    * @param {{path: string, middleware?:middleware[], controllers:controller[], view?: string, target?: string}} routeConfig 
    */
   constructor(routeConfig) {
+    this.params = {}
+
     if (typeof routeConfig.path != 'string') {
       throw Pop.error('[ROUTE_ERROR::INVALID_ROUTE] No path was specified for route')
     }
+
+    if (routeConfig.path.includes('/:')) {
+      const parts = routeConfig.path.split('/')
+      for (const part of parts) {
+        if (part.startsWith(':')) {
+          this.params[part.slice(1)] = ''
+        }
+      }
+    }
+
     this.path = routeConfig.path
     this.target = routeConfig.target || '#router-view'
-    this.middleware = routeConfig.middleware || []
-    this.controllers = routeConfig.controllers || []
+    this.middleware = Array.isArray(routeConfig.middleware) ? routeConfig.middleware : []
+    this.controllers = Array.isArray(routeConfig.controllers) ? routeConfig.controllers : []
     this.view = routeConfig.view || ''
     this.template = ''
-    this.params = {}
     this.loadTemplate()
   }
 
@@ -39,6 +50,25 @@ class Route {
       Pop.error('[ROUTE_ERROR::BAD_PATH] Unable to load template for route ' + this.path)
     }
   }
+
+  /**
+   * Cleans up controllers when the route changes.
+   */
+  cleanupControllers() {
+    this.controllers.forEach(c => {
+      try {
+        // @ts-ignore
+        const controller = window.app[c.name];
+        if (typeof controller.cleanup === 'function') {
+          // @ts-ignore
+          controller.cleanup();
+        }
+      } catch (error) {
+        console.error('[ROUTE_ERROR::CLEANUP_FAILURE]', error);
+      }
+    });
+  }
+
 }
 
 
@@ -68,37 +98,36 @@ export class Router {
   }
 
   async handleRouteChange() {
-    const currentRoute = this.routes.find(r => r.path == location.hash)
-    if (!currentRoute) {
-      Pop.error('404 No Matching Route Found for ' + location.hash)
-      return location.hash = this.currentRoute?.path || ''
+    if (this.currentRoute) {
+      this.currentRoute.cleanupControllers();
     }
-    this.fromRoute = this.currentRoute
-    this.currentRoute = currentRoute
 
-    this.getParams()
-    this.handleMiddleware()
+    const currentRoute = this.routes.find(r => {
+      const match = location.hash.match(new RegExp(`^${r.path.replace(/:\w+/g, '(\\w+)')}$`));
+      if (match) {
+        r.params = this.extractParams(r.path, match);
+        return true;
+      }
+      return false;
+    });
 
+    if (!currentRoute) {
+      this.handleError('404 No Matching Route Found for ' + location.hash);
+      return location.hash = this.currentRoute?.path || '';
+    }
+
+    this.fromRoute = this.currentRoute;
+    this.currentRoute = currentRoute;
+
+    this.handleMiddleware();
   }
 
-  getParams() {
-    const currentRoute = this.currentRoute
-    const path = location.hash.split('?')[0]
-    const params = location.hash.split('?')[1]
-    const routeParts = currentRoute.path.split('/')
-    const pathParts = path.split('/')
-    for (let i = 0; i < routeParts.length; i++) {
-      if (routeParts[i].startsWith(':')) {
-        currentRoute.params[routeParts[i].slice(1)] = pathParts[i]
-      }
-    }
-    if (params) {
-      const paramParts = params.split('&')
-      for (const part of paramParts) {
-        const [key, value] = part.split('=')
-        currentRoute.params[key] = value
-      }
-    }
+  extractParams(path, match) {
+    const paramNames = path.match(/:\w+/g) || [];
+    return paramNames.reduce((params, paramName, index) => {
+      params[paramName.substring(1)] = match[index + 1];
+      return params;
+    }, {});
   }
 
   async handleMiddleware() {
@@ -143,5 +172,13 @@ export class Router {
       // @ts-ignore
       this.app[c.name] = new c()
     })
+
   }
+
+  handleError(message) {
+    console.error('[router-error]', message)
+    Pop.error(message)
+
+  }
+
 }
