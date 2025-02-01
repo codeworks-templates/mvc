@@ -44,7 +44,7 @@
 // @import "../../node_modules/bootstrap/scss/spinners";
 @import "../../node_modules/bootstrap/scss/offcanvas";
 @import "../../node_modules/bootstrap/scss/placeholders";
-// @import "../../node_modules/bootstrap/scss/helpers";
+@import "../../node_modules/bootstrap/scss/helpers";
 
 
 
@@ -128,19 +128,28 @@
 
 #pop-toast-container {
   position: fixed;
-  top: .5em;
-  right: .5em;
+  width: 100dvw;
+  height: 100dvh;
+  overflow: auto;
+  padding: .5em;
   pointer-events: none;
-  outline: 1px dashed salmon;
   min-width: 30ch;
   display: flex;
   flex-direction: column;
+  justify-content: start;
+  align-items: end;
+
   gap: .25em;
+
+  .toast,
+  .alert {
+    backdrop-filter: blur(20px);
+  }
 }
 
-.custom-toast {
-  animation: blink-toasty .3s ease forwards;
-  backdrop-filter: blur(10px);
+.toast.show,
+.alert.show {
+  animation: blink-toasty .2s ease forwards;
 }
 
 @keyframes blink-toasty {

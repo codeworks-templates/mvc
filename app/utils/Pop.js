@@ -31,7 +31,7 @@ export class Pop {
   }
 
   static success(title, message) {
-    this.toast(title ?? 'Success!', message, 'success', undefined, undefined, 3000);
+    this.toast(title ?? 'Success!', message, 'check-bold', { color: 'success' });
   }
 
   static error(error, title, hint) {
@@ -40,36 +40,49 @@ export class Pop {
       error?.message
         ? `<div class="dialog-err-msg">${error.message}</div>`
         : 'Something went wrong',
-      'error',
-      hint ?? 'Refresh the page and try again. If the issue persists, please let us know.',
-      'top',
-      10000
+      'alert-decagram',
+      {
+        footer: hint ?? 'Refresh the page and try again. If the issue persists, please let us know.',
+        color: 'danger'
+      }
+
     );
   }
 
-  static toast(title = 'Toast is ready', text = '', icon = 'information', footer = '', position = 'top', timer = 30000) {
+
+  /**
+   * 
+   * @param {string} title 
+   * @param {string} text 
+   * @param {string} icon 
+   * @param {*} options 
+   * @returns {HTMLElement}
+   */
+  static toast(title = 'Toast is ready', text = '', icon = 'information', { footer = '', color = '', timer = 5000, classesToAdd = [] } = {}) {
     if (typeof document === 'undefined') return null
+    if (color) color = 'bg-' + color
     const toast = document.createElement('div')
     toast.setAttribute('role', 'alert')
-    toast.classList.add('custom-toast', `toast-${position}`, 'toast', 'show')
+    toast.classList.add('custom-toast', 'border-0', 'text-' + color, 'toast', 'show', color || undefined)
+    if (classesToAdd) classesToAdd.forEach(c => toast.classList.add(c))
+    toast.setAttribute('style', '--bs-bg-opacity: .4;')
 
-    // toast.style.background = colorConfig[icon] || colorConfig.default;
-    // toast.style.color = colorConfig[icon] ? '#fff' : colorConfig.color;
     if (title && text) {
       toast.innerHTML = `
-      <div class="toast-header">
+      <div class="toast-header text-${color}" ${color ? `style="--bs-bg-opacity: .8;"` : ''}>
         <i class="mdi mdi-${icon} me-2"></i>
         <b>${title}</b>
         <button type="button" class="btn-close ms-auto" data-bs-dismiss="toast" aria-label="Close"></button>
       </div>
-      <div class="toast-body">
+      <div class="toast-body" >
         <div>${text}</div>
-        ${footer ? `<footer>${footer}</footer>` : ''}
+        ${footer ? `<hr class="my-1"/><small class="text-body-secondary">${footer}</small>` : ''}
       </div>
     `
     } else {
+      toast.setAttribute('style', '--bs-bg-opacity: 1;')
       toast.innerHTML = `
-      <div class="toast-body d-flex ">
+      <div class="toast-body d-flex">
         <span>
           <i class="mdi mdi-${icon} me-2"></i><span>${title}</span>
         </span>
@@ -82,15 +95,13 @@ export class Pop {
     toastContainer.appendChild(toast);
 
     setTimeout(() => {
-      toast.remove();
+      toast.remove()
     }, timer);
+    return toast
   }
 
-  static alert(text, icon, timer) {
 
-  }
-
-  static async confirm(title, text, confirmText, cancelText) {
+  static async confirm(title = 'Are you sure?', text = '', confirmText = 'yes', cancelText = 'no') {
     return new Promise((resolve) => {
       const dialog = this.createDialog(`
         <div class="dialog-content">

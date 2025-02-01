@@ -29,7 +29,7 @@ export class ExampleController {
 
   exampleAction() {
     const emojis = ['🦍', '🦧', '🐖', '🦖', '🐋', '🐅', '🐓', '🐄']
-    Pop.toast('Hello world',)
+    Pop.confirm("are you sure?")
     let randomEmoji = emojis[Math.floor(Math.random() * emojis.length)]
     examplesService.addMessage(randomEmoji)
     this.drawExamples()
