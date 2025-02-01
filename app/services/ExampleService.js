@@ -3,7 +3,8 @@ import { Example } from "../models/Example.js";
 
 class ExamplesService {
   addMessage(message) {
-    AppState.examples.push(new Example(message))
+    const example = new Example(message)
+    AppState.examples.push(example)
   }
 }
 

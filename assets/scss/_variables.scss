@@ -1,37 +1,28 @@
-$body-bg: #e8e8e8;
-$primary: #274373;
-$secondary: #aeb0c5;
-$success: #5F732D;
-$info: #4f3862;
-$warning: #8a4f04;
-$danger: #890012;
-$light: #e9ecef;
-$dark: #111927;
-$grey: #cbcbcb;
-
-$font-sans-serif: Open Sans;
-$font-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-$gradient: linear-gradient(180deg, hsla(0, 0%, 100%, 0.15), hsla(0, 0%, 100%, 0));
-
-$colors: (
-  "primary": $primary,
-  "secondary": $secondary,
-  "danger": $danger,
-  "success": $success,
-  "warning": $warning,
-  "info": $info,
-  "dark": $dark,
-  "grey": $grey,
-);
-
-$color-ranges: (
-  0: 0,
-  5: 5,
-  10: 10,
-  15: 15,
-  20: 20,
-  25: 25,
-  30: 30,
-  35: 35,
-  40: 40,
+$body-bg: #fff;
+$body-bg-dark: #1b1f22;
+$theme-colors: (
+  "primary": #0e6efd,
+  "secondary": #aeb2b6,
+  "success": #198754,
+  "info": #0ccaf0,
+  "warning": #ffc105,
+  "danger": #dc3545,
+  "dark": #212529,
+  "light": #f8f9fa,
+  "body-bg": #fff,
+  // Bootstrap extended colors
+  "gray": $gray-500,
+  "grey": $gray-500,
+  "blue": $blue,
+  "indigo":$indigo,
+  "purple":$purple,
+  "pink":$pink,
+  "red": $red,
+  "orange": $orange,
+  "yellow": $yellow,
+  "green":$green,
+  "teal": $teal,
+  "cyan":$cyan,
+  // Custom colors
+  "codeworks": #141d2b,
 );
