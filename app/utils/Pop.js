@@ -104,12 +104,13 @@ export class Pop {
   static async confirm(title = 'Are you sure?', text = '', confirmText = 'yes', cancelText = 'no') {
     return new Promise((resolve) => {
       const dialog = this.createDialog(`
-        <div class="dialog-content">
+        <div class="dialog-body">
           <h2>${title}</h2>
+          <hr/>
           <p>${text}</p>
-          <div class="dialog-buttons">
-            <button id="confirm-button" style="background: ${colorConfig.confirmButtonColor};"> ${confirmText} </button>
-            <button id="cancel-button" style="background: ${colorConfig.cancelButtonColor};"> ${cancelText} </button>
+          <div class="dialog-buttons d-flex">
+            <button id="cancel-button" class="btn w-100" > ${cancelText} </button>
+            <button id="confirm-button" class="btn btn-primary w-100" > ${confirmText} </button>
           </div>
         </div>
       `);
@@ -121,6 +122,37 @@ export class Pop {
 
       dialog.querySelector('#cancel-button').addEventListener('click', () => {
         resolve(false);
+        dialog.close();
+      });
+    });
+  }
+
+  static async prompt(title = 'Are you sure?', text = '', confirmText = 'submit', cancelText = 'cancel', type = 'text') {
+    return new Promise((resolve) => {
+      const dialog = this.createDialog(`
+        <div class="dialog-body d-flex flex-column gap-2">
+          <h2>${title}</h2>
+          <hr/>
+          ${text ? `<p>${text}</p>` : ''}
+          <div>
+            <input id="pop-prompt-input" class="form-control" type="${type}"/>
+          </div>
+          <div class="dialog-buttons d-flex">
+            <button id="cancel-button" class="btn w-100" > ${cancelText} </button>
+            <button id="confirm-button" class="btn btn-primary w-100" > ${confirmText} </button>
+          </div>
+        </div>
+      `);
+
+      dialog.querySelector('#confirm-button').addEventListener('click', () => {
+        // @ts-ignore
+        let input = document.getElementById('pop-prompt-input').value
+        resolve(input);
+        dialog.close();
+      });
+
+      dialog.querySelector('#cancel-button').addEventListener('click', () => {
+        resolve(null);
         dialog.close();
       });
     });

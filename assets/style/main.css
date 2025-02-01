@@ -12682,6 +12682,14 @@ textarea.form-control-lg {
   transform: scale(1.075);
 }
 
+.custom-dialog {
+  border: 0;
+  border-radius: var(--bs-border-radius);
+  padding: 2em;
+  box-shadow: var(--bs-box-shadow);
+  animation: blink-toasty 0.2s ease forwards;
+}
+
 #pop-toast-container {
   position: fixed;
   width: 100dvw;
