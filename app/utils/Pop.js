@@ -2,13 +2,12 @@
 const colorConfig = {
   confirmButtonColor: 'var(--bs-success, #00b894)',
   cancelButtonColor: 'var(--bs-danger, #d63031)',
-  background: 'var(--bs-page, #f5f6fa)',
-  color: 'var(--vp-c-text, #333333)',
+  background: 'var(--bs-body-bg, #f5f6fa)',
   success: 'var(--bs-success, #00b894)',
   error: 'var(--bs-danger, #d63031)',
   info: 'var(--bs-primary, #0984e3)',
   warning: 'var(--bs-warning, #fdcb6e)',
-  default: 'var(--bs-page, #f5f6fa)',
+  default: 'var(--bs-body-bg, #f5f6fa)',
 }
 
 export class Pop {
@@ -18,7 +17,6 @@ export class Pop {
     const dialog = document.createElement('dialog')
     dialog.innerHTML = content
     dialog.style.background = colorConfig.background
-    dialog.style.color = colorConfig.color
     dialog.classList.add('custom-dialog')
     document.body.appendChild(dialog)
     dialog.showModal()

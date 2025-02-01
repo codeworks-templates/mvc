@@ -12685,6 +12685,7 @@ textarea.form-control-lg {
 .custom-dialog {
   border: 0;
   border-radius: var(--bs-border-radius);
+  background-color: var(--bs-body-bg);
   padding: 2em;
   box-shadow: var(--bs-box-shadow);
   animation: blink-toasty 0.2s ease forwards;

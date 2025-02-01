@@ -29,7 +29,6 @@ export class ExampleController {
 
   exampleAction() {
     const emojis = ['🦍', '🦧', '🐖', '🦖', '🐋', '🐅', '🐓', '🐄']
-    console.log(Pop.prompt("How many chickens?", 'you must pick', undefined, undefined, 'number'))
     let randomEmoji = emojis[Math.floor(Math.random() * emojis.length)]
     examplesService.addMessage(randomEmoji)
     this.drawExamples()
