@@ -12683,6 +12683,8 @@ textarea.form-control-lg {
 }
 
 .custom-dialog {
+  min-width: 38ch;
+  max-width: 64ch;
   border: 0;
   border-radius: var(--bs-border-radius);
   background-color: var(--bs-body-bg);
