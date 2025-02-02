@@ -1,6 +1,6 @@
 import { AppState } from '../AppState.js'
 import { audience, clientId, domain } from '../env.js'
-import { api } from '../services/AxiosService.js'
+import { api } from '../utils/Axios.js'
 import { logger } from '../utils/Logger.js'
 
 // @ts-ignore
@@ -30,8 +30,8 @@ AuthService.on(AuthService.AUTH_EVENTS.AUTHENTICATED, async () => {
   api.defaults.headers.authorization = AuthService.bearer
   api.interceptors.request.use(refreshAuthToken)
   AuthService.user.id = AuthService.user[audience + '/id']
-  AppState.user = AuthService.user
-  console.log(AuthService.user.nickname, 'Authenticated')
+  AppState.identity = AuthService.user
+  console.log('🛡️', AuthService.user.nickname, ' Authenticated')
   // await accountService.getAccount()
 })
 

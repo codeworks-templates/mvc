@@ -90,9 +90,10 @@ export class Router {
    * @param {{
    * targetElm?: string
    * routes: {view: string, path: string, controllers?: any[], target?: string, middleware?: middleware[]}[]
-   * }} options 
+   * }} [options] options
    */
-  constructor(app, { targetElm, routes }) {
+  constructor(app, options) {
+    const { targetElm = 'main', routes = [] } = options
     this.app = app
     this.targetElm = targetElm
     // @ts-ignore

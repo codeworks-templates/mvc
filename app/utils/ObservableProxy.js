@@ -39,4 +39,5 @@ export function createObservableProxy(observable) {
       ? observable.emit(target.__prop_name__ || prop, value)
       : null
   }
+
 }
