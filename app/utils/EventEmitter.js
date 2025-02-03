@@ -22,7 +22,7 @@ export class EventEmitter {
     } catch (error) {
       let available = this.getListenable(this)
       Pop.error(error, undefined, 'Check the web dev console for more details')
-      console.warn(`❗Unable to register listener for state event '${event}', event must match a valid listenable:`, available);
+      console.warn(`'${event}' is not a valid event for '.on', event must be one of the following defined by the state:`, available);
       console.error(error)
     }
   }
