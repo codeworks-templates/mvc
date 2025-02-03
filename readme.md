@@ -1,23 +1,6 @@
 {{name}}
 ============
 
-### Get Started
-
-```terminal
-> npm i
-> npm run sass
-> npm run serve
-```
-
-### AuthConfig
-
-Fill in your AuthConfig with keys from [Auth0](https://auth0.com/)
-
-```javascript
-export const domain = '' 
-export const clientId = '' 
-export const audience = '' 
-```
 ## Legal Overview
 
 The content under the CodeWorks®, LLC Organization and all of the individual repos are solely intended for use by CodeWorks Instruction to deliver Educational content to CodeWorks Students.
