@@ -32,7 +32,6 @@ export class ExampleController {
     let randomEmoji = emojis[Math.floor(Math.random() * emojis.length)]
     examplesService.addMessage(randomEmoji)
     this.drawExamples()
-    console.log(Pop.prompt('date', 'when is your birthday'))
   }
 
   drawExamples() {

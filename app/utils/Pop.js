@@ -49,14 +49,20 @@ export class Pop {
 
 
   /**
+   * @typedef toastOptions
+   * @property {string} [footer] tertiary text to appear in the bottom of the toast
+   * @property {number} [timer] Time for toast to dismiss itself
+   * @property {string[]} [classesToAdd] array of classes that will be added to the toast. Can be used to customize the toast notification 
+   * @property {('primary'|'secondary'|'info'|'warning'|'danger'|'success'|'blue'|'red'|'yellow'|'orange'|'purple'|'pink'|'purple'|'indigo'|'green'|'teal'|'light'|'dark'|'cyan'|'gray'|'black')} [color] color based off the bootstrap extended colors
    * 
    * @param {string} title 
    * @param {string} text 
-   * @param {string} icon 
-   * @param {*} options 
-   * @returns {HTMLElement}
+   * @param {string} icon mdi icon without including the 'mdi-'
+   * @param {toastOptions} [options] 
+   * @returns {HTMLElement} the toast element draw to page
    */
-  static toast(title = 'Toast is ready', text = '', icon = 'information', { footer = '', color = '', timer = 5000, classesToAdd = [] } = {}) {
+  static toast(title = 'Toast is ready', text = '', icon = 'information', options = {}) {
+    let { footer = '', color = '', timer = 5000, classesToAdd = [] } = options
     if (typeof document === 'undefined') return null
     if (color) color = 'bg-' + color
     const toast = document.createElement('div')
@@ -125,6 +131,27 @@ export class Pop {
     });
   }
 
+  /**
+   * @typedef promptOptions
+   * @property  {number} [min] minimum number
+   * @property  {number} [max] maximum number
+   * @property  {number} [minLength] min string length
+   * @property  {number} [maxLength] max string length
+   * @property  {number} [step] step amount for range
+   * @property  {number} [required] is this required to submit prompt
+   * @property  {*} [placeholder] placeholder for input
+   * @property  {*} [value] starting value for input
+   * @property  {boolean} [showValue] draw the value of the input above it
+   * @property  {string} [confirmText] text to appear in confirm button
+   * @property  {string} [cancelText] text to appear in cancel button
+   * @property  {boolean} [parseType] will the prompt attempt to parse the input into a more JS friendly type
+   * 
+   * @param {('number'|'text'| 'color'|'checkbox'|'range'|'date'|'datetime-local'|'radio'|'file'|'url'|'password')} type input type for prompt  
+   * @param {string} title 
+   * @param {string} text 
+   * @param {promptOptions} options 
+   * @returns {Promise} promise fulfilled with the value of the input or null after prompt is submitted
+   */
   static async prompt(type = 'text', title = 'Please Enter a value', text = '', options = {}) {
     let inputClass =
       type == 'checkbox' ? 'form-check-input' :
