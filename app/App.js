@@ -1,5 +1,5 @@
 import { ExampleController } from './controllers/ExampleController.js';
-import { AuthController } from './Auth/AuthController.js'
+import { Router } from './utils/Router.js'
 
 class App {
 

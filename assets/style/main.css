@@ -12701,10 +12701,6 @@ textarea.form-control-lg {
   padding: 0.5em;
   pointer-events: none;
   min-width: 30ch;
-  display: flex;
-  flex-direction: column;
-  justify-content: start;
-  align-items: end;
   gap: 0.25em;
 }
 #pop-toast-container .toast,

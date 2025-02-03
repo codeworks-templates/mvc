@@ -1,5 +1,5 @@
-import { ExampleController } from "./controllers/ExampleController.js";
-import { Router } from "./utils/Router.js";
+import { ExampleController } from "../controllers/ExampleController.js";
+import { Router } from "./Router.js";
 
 
 export const router = new Router([

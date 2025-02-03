@@ -145,11 +145,6 @@
   padding: .5em;
   pointer-events: none;
   min-width: 30ch;
-  display: flex;
-  flex-direction: column;
-  justify-content: start;
-  align-items: end;
-
   gap: .25em;
 
   .toast,

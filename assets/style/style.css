@@ -11,3 +11,10 @@ main {
   place-content: center;
   align-items: center;
 }
+
+#pop-toast-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: end;
+}

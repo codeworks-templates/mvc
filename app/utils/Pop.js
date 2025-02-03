@@ -125,35 +125,64 @@ export class Pop {
     });
   }
 
-  static async prompt(title = 'Are you sure?', text = '', confirmText = 'submit', cancelText = 'cancel', type = 'text') {
+  static async prompt(type = 'text', title = 'Please Enter a value', text = '', options = {}) {
+    let inputClass =
+      type == 'checkbox' ? 'form-check-input' :
+        type == 'radio' ? 'form-check-input' :
+          type == 'range' ? 'form-range' :
+            type == 'color' ? 'form-control form-control-color' :
+              'form-control'
+
+    const { min, minLength, max, maxLength, step, required = true, showValue = true, confirmText = 'submit', cancelText = 'cancel', parseType = true, placeholder, value } = options
     return new Promise((resolve) => {
       const dialog = this.createDialog(`
         <div class="dialog-body d-flex flex-column gap-2">
           <h2>${title}</h2>
           <hr/>
           ${text ? `<p>${text}</p>` : ''}
-          <div>
-            <input id="pop-prompt-input" class="form-control" type="${type}"/>
-          </div>
-          <div class="dialog-buttons d-flex">
-            <button id="cancel-button" class="btn w-100" > ${cancelText} </button>
-            <button id="confirm-button" class="btn btn-primary w-100" > ${confirmText} </button>
-          </div>
+          <form id="pop-prompt-form">
+          ${showValue ? `<label class="form-label text-center w-100 fw-bold" id="pop-prompt-value">...</label>` : ''}
+            <input id="pop-prompt-input" class="${inputClass}" type="${type}" 
+            ${value ? `value="${value}"` : ''} 
+            ${placeholder ? `placeholder="${placeholder}"` : ''} 
+            ${min ? `min="${min}"` : ''} 
+            ${max ? `max="${max}"` : ''} 
+            ${minLength ? `minLength="${minLength}"` : ''} 
+            ${maxLength ? `maxLength="${maxLength}"` : ''} 
+            ${step ? `step="${step}"` : ''} 
+            ${required ? `required` : ''} />
+          </form >
+        <div class="dialog-buttons d-flex">
+          <button type="button" id="cancel-button" class="btn w-100" > ${cancelText} </button>
+          <button disabled type="submit" id="confirm-button" form="pop-prompt-form" class="btn btn-primary w-100" > ${confirmText} </button>
         </div>
-      `);
-
-      dialog.querySelector('#confirm-button').addEventListener('click', () => {
+        </div >
+        `);
+      const dialogLabel = dialog.querySelector('#pop-prompt-value')
+      const dialogInput = dialog.querySelector('#pop-prompt-input')
+      const confirmButton = dialog.querySelector('#confirm-button')
+      dialogInput.addEventListener('input', () => {
+        // @ts-ignore
+        if (dialogInput.checkValidity()) confirmButton.removeAttribute('disabled')
+        else confirmButton.setAttribute('disabled', 'true')
+        // @ts-ignore
+        if (showValue) dialogLabel.textContent = dialogInput.value
+      })
+      dialog.querySelector('#pop-prompt-form').addEventListener('submit', (e) => {
+        e.preventDefault()
         // @ts-ignore
         let input = document.getElementById('pop-prompt-input').value
-        resolve(input);
+        if (parseType) resolve(_tryParseInput(input, type))
+        resolve(_tryParseInput(input, type))
         dialog.close();
       });
 
       dialog.querySelector('#cancel-button').addEventListener('click', () => {
-        resolve(null);
-        dialog.close();
+        resolve(null)
+        dialog.close()
       });
     });
+
   }
 
   static createToastContainer() {
@@ -161,5 +190,17 @@ export class Pop {
     container.id = 'pop-toast-container'
     document.body.appendChild(container)
     return container
+  }
+}
+
+
+function _tryParseInput(value, type) {
+  switch (type) {
+    case 'range':
+    case 'number': return parseFloat(value)
+    case 'checkbox': return value == 'on' ? true : false
+    case 'datetime-local':
+    case 'date': return new Date(value)
+    default: return value
   }
 }
