@@ -4,22 +4,27 @@ export class EventEmitter {
   _listeners = {}
 
   /**
-   * @param {string } event
-   * @param {function} fn
+   * @param {string } event property you are listening to for a change
+   * @param {function} fn function to be invoked when event listener is triggered
    * @param {any} thisContext
    */
   on(event, fn, thisContext = null) {
-    if (typeof fn != 'function') { return; }
-    if (!(event in this)) {
-      console.error(`Unable to register listener for '${event}'`);
-      Pop.error(`Unable to register listener for '${event}'`)
-      return;
+    try {
+      if (typeof fn != 'function') { return; }
+      if (!(event in this)) {
+        throw new Error(`Unable to register listener for state event '${event}'`)
+      }
+      this._listeners[event] = Array.isArray(this._listeners[event]) ? this._listeners[event] : [];
+      this._listeners[event] = this._listeners[event] || [];
+      // @ts-ignore
+      fn.ctx = thisContext;
+      this._listeners[event].push(fn);
+    } catch (error) {
+      let available = this.getListenable(this)
+      Pop.error(error, undefined, 'Check the web dev console for more details')
+      console.warn(`'${event}' is not a valid event for '.on', event must be one of the following defined by the state:`, available);
+      console.error(error)
     }
-    this._listeners[event] = Array.isArray(this._listeners[event]) ? this._listeners[event] : [];
-    this._listeners[event] = this._listeners[event] || [];
-    // @ts-ignore
-    fn.ctx = thisContext;
-    this._listeners[event].push(fn);
   }
   /**
    * @param {string | number} event
@@ -57,5 +62,11 @@ export class EventEmitter {
    */
   clearAll() {
     this._listeners = {}
+  }
+
+  getListenable(context) {
+    let keys = Object.keys(context)
+    let hide = ['on', 'clear', 'clearAll', 'emit', 'off', '_listeners', 'getListenable']
+    return keys.filter(k => !hide.includes(k))
   }
 }

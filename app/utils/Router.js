@@ -83,12 +83,31 @@ export class Router {
 
   app = {}
 
-  constructor(routeConfig) {
-    this.routes = routeConfig.map(r => new Route(r))
+
+  /**
+   * 
+   * @param {*} app 
+   * @param {{
+   * targetElm?: string
+   * routes: {view: string, path: string, controllers?: any[], target?: string, middleware?: middleware[]}[]
+   * }} [options] options
+   */
+  constructor(app, options) {
+    const { targetElm = 'main', routes = [] } = options
+    this.app = app
+    this.targetElm = targetElm
+    // @ts-ignore
+    this.routes = routes.map(r => new Route(r))
+    if (this.routes.length == 0) {
+      console.warn("Router Disabled, No Routes provided")
+    } else {
+      this.init()
+    }
   }
 
-  init(app) {
-    this.app = app
+  init() {
+    // @ts-ignore
+    if (this.app === undefined) return console.error('[🚨ERROR] Router must be created after app')
     window.addEventListener(
       "hashchange",
       () => this.handleRouteChange(),
@@ -152,7 +171,7 @@ export class Router {
     if (currentRoute.view) {
       await currentRoute.loadTemplate()
       let template = currentRoute.template || currentRoute.view
-      let target = document.querySelector(currentRoute.target)
+      let target = document.querySelector(currentRoute.target || this.targetElm)
 
       if (!target) {
         const main = document.querySelector('main')
