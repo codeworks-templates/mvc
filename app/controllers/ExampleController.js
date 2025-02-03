@@ -4,7 +4,7 @@ import { Pop } from "../utils/Pop.js"
 
 export class ExampleController {
   constructor() {
-    console.log('Hello from ExampleController')
+    console.log('👋Hello from ExampleController')
     this.drawMVCard()
   }
 
