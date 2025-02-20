@@ -1,5 +1,4 @@
 import { ExampleController } from './controllers/ExampleController.js';
-import { Router } from './utils/Router.js'
 
 class App {
 
@@ -7,7 +6,6 @@ class App {
 
 }
 
-// @ts-ignore
-window.app = new App()
+window['app'] = new App()
 
 
