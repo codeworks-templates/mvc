@@ -1,6 +1,13 @@
 {
   "javascript.preferences.importModuleSpecifier": "relative",
   "javascript.preferences.importModuleSpecifierEnding": "js",
+  "github.copilot.editor.enableAutoCompletions": false,
+  "github.copilot.enable": {
+    "*": false,
+    "plaintext": false,
+    "markdown": false,
+    "scminput": false
+  },
   "workbench.colorCustomizations": {
     "commandCenter.border": "#e7e7e799",
     "sash.hoverBorder": "#141d2b",
