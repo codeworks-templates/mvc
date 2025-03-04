@@ -2,6 +2,7 @@ import { AppState } from '../AppState.js'
 import { audience, clientId, domain } from '../env.js'
 import { api } from '../utils/Axios.js'
 import { logger } from '../utils/Logger.js'
+import { Identity } from './Identity.js'
 
 // @ts-ignore
 // eslint-disable-next-line no-undef
@@ -30,9 +31,8 @@ AuthService.on(AuthService.AUTH_EVENTS.AUTHENTICATED, async () => {
   api.defaults.headers.authorization = AuthService.bearer
   api.interceptors.request.use(refreshAuthToken)
   AuthService.user.id = AuthService.user[audience + '/id']
-  AppState.identity = AuthService.user
+  AppState.identity = new Identity(AuthService.user)
   console.log('🛡️', AuthService.user.nickname, ' Authenticated')
-  // await accountService.getAccount()
 })
 
 async function refreshAuthToken(config) {
