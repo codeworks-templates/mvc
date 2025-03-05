@@ -56,7 +56,7 @@ export class AuthController {
 
 function authButton(user) {
   if (AuthService.loading) { return '' }
-  return user && user.isAuthenticated
+  return user
     ? /* html */ `
     <button class="btn text-light selectable-danger" onclick="app.authController.logout()" title="logout"><i class="mdi mdi-logout f-16"></i></button>
   `
