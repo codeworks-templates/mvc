@@ -31,8 +31,8 @@ AuthService.on(AuthService.AUTH_EVENTS.AUTHENTICATED, async () => {
   api.defaults.headers.authorization = AuthService.bearer
   api.interceptors.request.use(refreshAuthToken)
   AuthService.user.id = AuthService.user[audience + '/id']
-  AppState.identity = new Identity(AuthService.user)
   console.log('🛡️', AuthService.user.nickname, ' Authenticated')
+  AppState.identity = new Identity(AuthService.user)
 })
 
 async function refreshAuthToken(config) {
